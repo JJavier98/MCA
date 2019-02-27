@@ -1,4 +1,4 @@
-; This example program checks if the input string is a word with the same
+; This program checks if the input string is a word with the same
 ; number of 'a', 'b' and 'c' in this order
 ; Input: a string of a's, b's and c's, eg 'aaabbbccc'
 

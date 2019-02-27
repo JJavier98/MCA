@@ -1,6 +1,34 @@
-; This example program checks if the input string is a binary word with the same
-; number of zeros as ones.
-; Input: a string of 0's and 1's, eg '10010011'
+; This program checks if the input string is a even binary palindrome.
+; Input: a string of 0's and 1's, eg '10011001'
 
 
 ; Machine starts in state ini.
+ini 1 _ r R1
+ini 0 _ r R0
+ini _ _ * good-end
+
+; State R1:
+R1 _ _ l q1
+R1 * * r R1
+
+; State R0:
+R0 _ _ l q0
+R0 * * r R0
+
+; State q1:
+q1 1 _ l ret
+q1 * * * bad-end
+
+; State q0:
+q0 0 _ l ret
+q0 * * * bad-end
+
+; State ret:
+ret _ _ r ini
+ret * * l ret
+
+; State bad-end:
+bad-end * * * halt-rejected
+
+; State good-end:
+good-end * * * halt-accepted

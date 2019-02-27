@@ -1,4 +1,4 @@
-; This example program checks if the input string is a binary word with the same
+; This program checks if the input string is a binary word with the same
 ; number of zeros as ones.
 ; Input: a string of 0's and 1's, eg '10010011'
 
@@ -8,57 +8,56 @@
 ; State ini: read the leftmost symbol
 ini 0 _ r f1
 ini 1 _ r f2
-ini # # r ini2
-ini _ _ * accept     ; Empty input
+ini X _ r ini2
+ini _ _ * halt_accept     ; Empty input
 
-; State ini2: read the first number after '#'
-ini2 0 # r f11
-ini2 1 # r f22
-ini2 # # r ini2
+; State ini2: read the first number after 'X'
+ini2 0 X r f11
+ini2 1 X r f22
+ini2 X _ r ini2
 ini2 _ _ * halt_accept
 
 ; State f1: first move to the right after read 0
 f1 1 _ r ini
 f1 0 0 r next1
-f1 # # r next1
+f1 X X r next1
 f1 _ _ * halt_reject
 
 ; State f2: first move to the right after read 1
 f2 0 _ r ini
 f2 1 1 r next2
-f2 # # r next2
+f2 X X r next2
 f2 _ _ * halt_reject
 
 ; State f11: 
-f11 1 # * ret
+f11 1 X * ret
 f11 0 0 r f11
-f11 # # r f11
+f11 X X r f11
 f11 _ _ * halt_reject
 
 ; State f22: 
-f22 0 # * ret
+f22 0 X * ret
 f22 1 1 r f22
-f22 # # r f22
+f22 X X r f22
 f22 _ _ * halt_reject
 
-; State next1: when find the correct simbol, change it to '#' and return to the begining
-next1 1 # * ret
+; State next1: when find the correct simbol, change it to 'X' and return to the begining
+next1 1 X * ret
 next1 0 0 r next1
-next1 # # r next1
+next1 X X r next1
 next1 _ _ * halt_reject
 
-; State next2: when find the correct simbol, change it to '#' and return to the begining
-next2 0 # * ret
+; State next2: when find the correct simbol, change it to 'X' and return to the begining
+next2 0 X * ret
 next2 1 1 r next2
-next2 # # r next2
+next2 X X r next2
 next2 _ _ * halt_reject
 
 ; State ret: go back to de begining
 ret 0 0 l ret
 ret 1 1 l ret
-ret # # l ret
+ret X X l ret
 ret _ _ r ini
-
 
 
 
