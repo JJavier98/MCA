@@ -1,0 +1,45 @@
+; Accept words like 'wcw'
+; Input: a string of 0's and 1's with a 'c' in the middle, eg '1101c1101'
+
+
+; Machine starts in state ini.
+
+; State ini:read the first digit
+ini 1 _ r C1
+ini 0 _ r C0
+ini c c r q2
+
+; State C0: look for the character 'c'
+C0 _ _ * bad-end
+C0 c c r q0
+C0 * * r C0
+
+; State C1: look for the character 'c'
+C1 _ _ * bad-end
+C1 c c r q1
+C1 * * r C1
+
+; State q0:
+q0 0 X l ret
+q0 X X r q0
+q0 * * * bad-end
+
+; State q1:
+q1 1 X l ret
+q1 X X r q1
+q1 * * * bad-end
+
+; State q2:
+q2 _ _ * good-end
+q2 X X r q2
+q2 * * * bad-end
+
+; State ret:
+ret _ _ r ini
+ret * * l ret
+
+; State bad-end:
+bad-end * * * halt-rejected
+
+; State good-end:
+good-end * * * halt-accepted

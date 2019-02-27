@@ -3,27 +3,29 @@
 
 
 ; Machine starts in state ini.
+
+; State ini:read the first digit
 ini 1 _ r R1
 ini 0 _ r R0
 ini _ _ * good-end
 
-; State R1:
+; State R1: look for a '1' at the end of the word
 R1 _ _ l q1
 R1 * * r R1
 
-; State R0:
+; State R0: look for a '0' at the end of the word
 R0 _ _ l q0
 R0 * * r R0
 
-; State q1:
+; State q1: read '1' at the end of the word
 q1 1 _ l ret
 q1 * * * bad-end
 
-; State q0:
+; State q0: read '0' at the end of the word
 q0 0 _ l ret
 q0 * * * bad-end
 
-; State ret:
+; State ret: go back to the begining
 ret _ _ r ini
 ret * * l ret
 
