@@ -1,0 +1,39 @@
+; This example program checks if the input string is a word with the same
+; number of 'a', 'b' and 'c' in this order
+; Input: a string of a's, b's and c's, eg 'aaabbbccc'
+
+
+; Machine starts in state ini.
+
+; State ini: read the character 'a'
+ini a X r q1
+ini Y Y * R
+ini * * * bad-end
+
+; State q1: read the character 'b'
+q1 a a r q1
+q1 b Y r q2
+q1 Y Y r q1
+q1 * * * bad-end
+
+; State q2: read the character 'c'
+q2 b b r q2
+q2 c Z l ret
+q2 Z Z r q2
+q2 * * * bad-end
+
+; State R: read simbols 'Y' and 'Z' in order to accept the word
+R Y Y r R
+R Z Z r R
+R _ _ * good-end
+R * * * bad-end
+
+; State ret: Go back to the last 'X'
+ret X X r ini
+ret * * l ret
+
+; State bad-end:
+bad-end * * * halt-reject
+
+; State good-end:
+good-end * * * halt-accepted 
